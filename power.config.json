@@ -1,0 +1,52 @@
+{
+  "version": "1.0",
+  "appId": "2505f935-eb7a-41b0-9e74-2ebb4fb0e5d2",
+  "appDisplayName": "hotel-book-pro",
+  "region": "prod",
+  "environmentId": "2a7234ad-efe4-ebf4-bdca-f2307d4b4c07",
+  "description": " ",
+  "buildPath": "./dist",
+  "buildEntryPoint": "index.html",
+  "localAppUrl": "http://localhost:3000",
+  "logoPath": "Default",
+  "connectionReferences": {},
+  "databaseReferences": {
+    "default.cds": {
+      "dataSources": {
+        "users": {
+          "entitySetName": "systemusers",
+          "logicalName": "systemuser"
+        },
+        "hotelbranches": {
+          "entitySetName": "tk_hotelbranchs",
+          "logicalName": "tk_hotelbranch"
+        },
+        "halls": {
+          "entitySetName": "tk_halls",
+          "logicalName": "tk_hall"
+        },
+        "bookings": {
+          "entitySetName": "tk_bookings",
+          "logicalName": "tk_booking"
+        },
+        "customers": {
+          "entitySetName": "tk_customers",
+          "logicalName": "tk_customer"
+        },
+        "eventcategories": {
+          "entitySetName": "tk_eventcategories",
+          "logicalName": "tk_eventcategory"
+        },
+        "hall_eventtypes": {
+          "entitySetName": "tk_halleventtypes",
+          "logicalName": "tk_halleventtype"
+        },
+        "microsoftentraids": {
+          "entitySetName": "aadusers",
+          "logicalName": "aaduser"
+        }
+      },
+      "environmentVariableName": ""
+    }
+  }
+}
