@@ -4,10 +4,15 @@ export const navbarData = [
     icon: "../assets/order-management/Order-Management.png",
     label: "General",
     subMenus: [
-      { routerLink: "branches", icon: null, label: "Branches" },
-      { routerLink: "hall", icon: null, label: "Hall" },
-      { routerLink: "halleventtype", icon: null, label: "Hall event Types" },
-      { routerLink: "customer", icon: null, label: "Customer" },
+      { routerLink: "branches", icon: null, label: "Branches", pinned: true },
+      { routerLink: "hall", icon: null, label: "Hall", pinned: true },
+      {
+        routerLink: "halleventtype",
+        icon: null,
+        label: "Hall event Types",
+        pinned: true,
+      },
+      { routerLink: "customer", icon: null, label: "Customer", pinned: true },
     ],
     tag: "general",
   },
@@ -15,7 +20,9 @@ export const navbarData = [
     routerLink: "booking",
     icon: null,
     label: "Booking",
-    subMenus: [{ routerLink: "bookings", icon: null, label: "Bookings" }],
+    subMenus: [
+      { routerLink: "bookings", icon: null, label: "Bookings", pinned: true },
+    ],
     tag: "booking",
   },
   {
@@ -27,23 +34,27 @@ export const navbarData = [
         routerLink: "confirmed-report-by-branch",
         icon: null,
         label: "Confirmed Bookings [by Branch]",
+        pinned: true,
       },
       {
         routerLink: "pending-booking-report-by-branch",
         icon: null,
         label: "Pending Bookings [by Branch]",
+        pinned: false,
       },
 
       {
         routerLink: "1",
         icon: null,
         label: "Booking List",
+        pinned: false,
       },
 
       {
         routerLink: "cancelled-bookings",
         icon: null,
         label: "Cancelled Bookings",
+        pinned: false,
       },
     ],
     tag: "booking",

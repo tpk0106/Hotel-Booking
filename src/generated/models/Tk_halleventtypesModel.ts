@@ -21,11 +21,16 @@ export interface Tk_halleventtypesBase {
   statecode: Tk_halleventtypesstatecode;
   statuscode?: Tk_halleventtypesstatuscode;
   timezoneruleversionnumber?: number;
+  tk_cancellationfee?: number;
+  tk_cancellationwindow?: number;
   "tk_EventCategoryType@odata.bind"?: string;
   tk_eventtypecapacity?: number;
   tk_halleventtypeid: string;
   tk_halleventtyperef: string;
   "tk_HallName@odata.bind"?: string;
+  tk_leadtime?: number;
+  tk_mincapacity?: number;
+  "TransactionCurrencyId@odata.bind"?: string;
   utcconversiontimezonecode?: number;
 }
 
@@ -35,6 +40,7 @@ export interface Tk_halleventtypes extends Tk_halleventtypesBase {
   createdon?: string;
   createdonbehalfbyname?: string;
   createdonbehalfbyyominame: string;
+  exchangerate?: number;
   modifiedbyname?: string;
   modifiedbyyominame: string;
   modifiedon?: string;
@@ -45,8 +51,10 @@ export interface Tk_halleventtypes extends Tk_halleventtypesBase {
   owningbusinessunitname: string;
   statecodename?: string;
   statuscodename?: string;
+  tk_cancellationfee_base?: number;
   tk_eventcategorytypename?: string;
   tk_hallnamename?: string;
+  transactioncurrencyidname?: string;
   versionnumber?: number;
   createdby?: object;
   _createdby_value?: string;
@@ -66,4 +74,6 @@ export interface Tk_halleventtypes extends Tk_halleventtypesBase {
   _tk_eventcategorytype_value?: string;
   tk_hallname?: object;
   _tk_hallname_value?: string;
+  transactioncurrencyid?: object;
+  _transactioncurrencyid_value?: string;
 }

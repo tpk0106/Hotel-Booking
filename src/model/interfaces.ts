@@ -142,6 +142,10 @@ export interface CustomerFormData {
 
 export interface HallEventTypeFormData {
   tk_eventtypecapacity: number;
+  tk_mincapacity: number;
+  tk_cancellationfee: number;
+  tk_cancellationwindow: number;
+  tk_leadtime: number;
   tk_halleventtypeid: string;
   _tk_eventcategorytype_value: string;
   _tk_hallname_value: string;

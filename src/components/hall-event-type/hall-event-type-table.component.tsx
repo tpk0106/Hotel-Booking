@@ -29,7 +29,7 @@ const HallEventTypeTable = ({
         handleEdit={handleEdit}
         handleDelete={handleDelete}
         sx={{
-          width: "60%",
+          width: "80%",
           "& td": { fontSize: "0.7rem" },
           "& th": { fontSize: "0.8rem" },
           ":hover": { backgroundColor: "#ffffff", color: "#000" },

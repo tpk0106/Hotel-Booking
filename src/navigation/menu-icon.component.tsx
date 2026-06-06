@@ -7,8 +7,13 @@ type Icn = {
 const MenuIcon = ({ name }: Icn) => {
   switch (name) {
     case "General":
+    case "Branches":
+    case "Hall event Types":
       return <HotelOutlinedIcon className="text-blue-400" />;
     case "Booking":
+    case "Bookings":
+    case "Hall":
+    case "Customer":
       return <HotelSharpIcon className="text-blue-400" />;
     case "Reports":
       return <SummarizeOutlinedIcon className="text-blue-400" />;

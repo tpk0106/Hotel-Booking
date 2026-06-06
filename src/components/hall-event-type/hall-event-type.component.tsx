@@ -85,6 +85,7 @@ const HallEventType = () => {
       setHallEventTypes(hallEventTypesData);
       setEventCategories(eventCategoriesData);
       setHalls(hallsData);
+      console.log("hall event types data : ", hallEventTypesData);
     };
     loadData();
   }, [hallEventTypesData, hallsData, eventCategoriesData]);
@@ -104,13 +105,17 @@ const HallEventType = () => {
           row._tk_eventcategorytype_value || "none"
         ],
     },
-    { header: "Capacity", key: "tk_eventtypecapacity" },
-
+    { header: "Max. Capacity", key: "tk_eventtypecapacity" },
+    { header: "Min. Capacity", key: "tk_mincapacity" },
+    { header: "Lead time (days)", key: "tk_leadtime" },
+    { header: "Cancellation Window (days)", key: "tk_cancellationwindow" },
+    { header: "Cancellation Fee", key: "tk_cancellationfee" },
     { header: "Action", key: "actions" }, // Special key for buttons
   ];
 
   const handleEdit = (editFormData: Tk_halleventtypes) => {
     const retRow = editFormData;
+    console.log("edit form data in handle edit : ", editFormData);
     handleEditForm(retRow);
   };
 
@@ -122,6 +127,10 @@ const HallEventType = () => {
     setIsCreating(true);
     const newHallEventType: HallEventTypeFormData = {
       tk_eventtypecapacity: 0,
+      tk_mincapacity: 0,
+      tk_cancellationfee: 0,
+      tk_cancellationwindow: 0,
+      tk_leadtime: 0,
       _tk_hallname_value: "",
       eventCategories: eventCategories,
       tk_halleventtypeid: "",
@@ -142,6 +151,10 @@ const HallEventType = () => {
       _tk_eventcategorytype_value:
         editFormData._tk_eventcategorytype_value || "",
       _tk_hallname_value: editFormData._tk_hallname_value || "",
+      tk_mincapacity: editFormData.tk_mincapacity || 0,
+      tk_cancellationfee: editFormData.tk_cancellationfee || 0,
+      tk_cancellationwindow: editFormData.tk_cancellationwindow || 0,
+      tk_leadtime: editFormData.tk_leadtime || 0,
       halls: halls,
       eventCategories: eventCategories, // Pass the list of eventCategories to the form data
     };
@@ -162,7 +175,11 @@ const HallEventType = () => {
     // edit
     // 1. Prepare the payload with ONLY writable fields
     const payload: any = {
-      tk_eventtypecapacity: editedPayload.tk_eventtypecapacity,
+      tk_eventtypecapacity: Number(editedPayload.tk_eventtypecapacity),
+      tk_mincapacity: Number(editedPayload.tk_mincapacity),
+      tk_cancellationfee: Number(editedPayload.tk_cancellationfee),
+      tk_cancellationwindow: Number(editedPayload.tk_cancellationwindow),
+      tk_leadtime: Number(editedPayload.tk_leadtime),
     };
 
     // 2. Add the evet category type and hall name binding
@@ -218,6 +235,10 @@ const HallEventType = () => {
                   //...editedPayload, // Keep all form fields locally
 
                   tk_eventtypecapacity: editedPayload.tk_eventtypecapacity,
+                  tk_mincapacity: editedPayload.tk_mincapacity,
+                  tk_cancellationfee: editedPayload.tk_cancellationfee,
+                  tk_cancellationwindow: editedPayload.tk_cancellationwindow,
+                  tk_leadtime: editedPayload.tk_leadtime,
                   _tk_eventcategorytype_value:
                     editedPayload._tk_eventcategorytype_value,
                   _tk_hallname_value: editedPayload._tk_hallname_value,
@@ -275,13 +296,16 @@ const HallEventType = () => {
         // Extract the actual record from the result
         // In most Power Apps generated services, this is result.data
         const createdRecord = result.data;
-        console.log("created Rec: ", createdRecord);
 
         if (!createdRecord) return;
 
         const newHallEventType: Tk_halleventtypes = {
           ...createdRecord, // This now has the real ID and metadata
           tk_eventtypecapacity: newPayload.tk_eventtypecapacity,
+          tk_mincapacity: newPayload.tk_mincapacity,
+          tk_cancellationfee: newPayload.tk_cancellationfee,
+          tk_cancellationwindow: newPayload.tk_cancellationwindow,
+          tk_leadtime: newPayload.tk_leadtime,
           _tk_eventcategorytype_value: newPayload._tk_eventcategorytype_value,
           _tk_hallname_value: newPayload._tk_hallname_value,
         };

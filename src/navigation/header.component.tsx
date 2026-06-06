@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { ExpandMoreOutlined } from "@mui/icons-material";
 
@@ -20,19 +20,14 @@ import {
   // Button,
 } from "@mui/material";
 
-//import logo from "../assets/logo/SmallLogo.jpg";
-// import logoTransparent from "../assets/logo/Hotel-management-logo.jpg";
-// import logoTransparentWebP from "/assets/logo/mt-lavinia-hotel-logo.png";
-// import menuLogo from "/assets/logo/Logo8.png";
-
-// import logo8 from "../assets/Logo8.png";
 import verticalMenuLogo from "../assets/Hotel-management-logo-transparent.png";
-// import verticalMenuLogo from "../assets/hotel-management-logo.jpg";
+
 import hotelLogo from "../assets/mt-lavinia-hotel-logo.png";
 import { navbarData } from "../data/nav-data";
 
 import Menu from "./menu.component";
 import { Link } from "react-router-dom";
+import PinnedMenu from "./pinned-menu.component";
 
 const handleMouseEnter = () => {
   const ele = document.getElementById("show-mobileMenu");
@@ -49,24 +44,6 @@ const handleMouseLeave = () => {
     ele.style.left = "-140px";
   }
 };
-
-// const handleMouseEnter1 = () => {
-//   const ele = document.getElementById("show-mobileMenu")!;
-
-//   ele.style.left = "0px";
-//   ele.style.width = "20%";
-//   ele.style.transition = "width 1000ms ";
-//   ele.style.animation = "linear";
-// };
-
-// const handleMouseLeave1 = () => {
-//   const ele = document.getElementById("show-mobileMenu")!;
-
-//   ele.style.width = "150px";
-//   ele.style.left = "-140px";
-//   ele.style.transition = "width 1000ms ";
-//   ele.style.animation = "linear";
-// };
 
 const theme = createTheme({
   components: {
@@ -136,12 +113,33 @@ const asideSubMenuTypographyTheme = createTheme({
 
 const Header = () => {
   const [open, setOpen] = useState(0);
+  const [pinnedMenuOn, setPinnedMenuOn] = useState(false);
+
   // const [rotation, setRotation] = useState(50);
   // const handleOpen = (value: number) => {
   //   setOpen(open === value ? 0 : value);
   // };
 
   let counter = 0;
+
+  useEffect(() => {
+    const ele = document.getElementById("show-mobileMenu");
+    if (ele) {
+      ele.style.width = "150px";
+      ele.style.left = "-140px";
+      ele.hidden = pinnedMenuOn;
+    }
+    const elePinned = document.getElementById("show-pinnedMenu");
+
+    if (elePinned) {
+      if (pinnedMenuOn) {
+        elePinned.style.width = "80px";
+        elePinned.style.left = "0px";
+      } else {
+        elePinned.style.width = "0px";
+      }
+    }
+  }, [pinnedMenuOn]);
 
   // const CUSTOM_ANIMATION = {
   //   mount: { scale: 1 },
@@ -187,7 +185,14 @@ const Header = () => {
                 </Link>
               </div>
 
-              <div className="flex flex-col justify-around w-[20%] m-auto align-middle"></div>
+              <div className="flex flex-col justify-around w-[10%] m-auto align-middle"></div>
+              {/* pinned menu */}
+              <div className="flex flex-col justify-around w-[10%] m-auto align-middle">
+                <div className="flex justify-end align-middle">
+                  <PinnedMenu onToggle={setPinnedMenuOn} />
+                </div>
+              </div>
+              {/* </div> */}
             </div>
 
             {/* mobile width <= 767px
@@ -202,7 +207,6 @@ const Header = () => {
             <div id="vertical-menu" className="w-0 h-0 z-50 relative">
               <nav className="flex flex-col flex-1">
                 <div
-                  // className="flex flex-col flex-1 items-center w-40 text-sm rounded-md bg-blue-400 font-semibold border-2 border-gray-500 p-2 -left-37.5 top-1 absolute h-full"
                   className="flex flex-col items-center w-40 
                              text-sm rounded-md bg-blue-400 font-semibold border-2 border-gray-500 p-2 
                              fixed top-2 bottom-2 -left-35 z-50 
@@ -358,16 +362,62 @@ const Header = () => {
             </div>
             {/* end of vertical menu  */}
 
-            {/* <div className="flex w-[100%] mt-3 border-4 border-blue-600 h-[80%]">
-              <Outlet />
-            </div> */}
-            {/* <div className="flex flex-col w-[100%] max1-h-[14%] h-[12%] mt-2 bg1-[#f9f9] b1-3 border1-red-800 justify-center mb-0 ">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sed nam
-              nostrum, non quisquam maxime optio laborum delectus voluptate eos
-              maiores rerum consectetur, laboriosam et. Quo recusandae
-              voluptatem consequatur quam maiores!
-              <Footer />
-            </div> */}
+            {/* pinned menu */}
+            <div
+              id="show-pinnedMenu"
+              className="fixed top-2 bottom-2 left-0 z-50 transition-all duration-300 ease-in-out"
+              style={{ width: "80px", left: "0px" }} // Initial width set to match your script variables
+            >
+              <ThemeProvider theme={theme}>
+                <Card
+                  className="my-auto h-[calc(100vh-1rem)] shadow-xl border border-gray-300"
+                  id="main-pinned-menu"
+                  style={{ margin: 0, height: "100%" }} // Forces full vertical card expansion
+                >
+                  <Box
+                    sx={{
+                      padding: 0,
+                      display: "flex",
+                      justifyContent: "center",
+                      marginTop: "0.5rem",
+                    }}
+                    className="h-full"
+                  >
+                    <List
+                      className="w-[85%] bg-black overflow-y-scroll scrollbar-none 
+                     h-[calc(100vh-2rem)] rounded-md shadow-xl shadow-gray-900 
+                     border border-gray-700 p-2 flex flex-col items-center gap-2"
+                    >
+                      {navbarData.map((menu) => {
+                        return menu.subMenus?.map((sm) => {
+                          if (sm.pinned) {
+                            return (
+                              <li
+                                key={sm.label}
+                                className="flex justify-center hover:bg-gray-800
+                                rounded-md transition-colors duration-150"
+                              >
+                                <Link
+                                  to={sm.routerLink}
+                                  className="flex p-2 text-white hover:border border-gray-200 
+                                  rounded-md hover:text-black"
+                                  title={sm.label} // Native tooltip text on hover
+                                >
+                                  <MenuIcon name={sm.label} />
+                                </Link>
+                              </li>
+                            );
+                          }
+                          return null;
+                        });
+                      })}
+                    </List>
+                  </Box>
+                </Card>
+              </ThemeProvider>
+            </div>
+
+            {/* end of pinned menu */}
           </div>
         </div>
       </div>

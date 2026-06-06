@@ -72,6 +72,14 @@
           "required": true,
           "maxLength": 100
         },
+        "exchangerate": {
+          "type": "string",
+          "title": "Exchange Rate",
+          "x-ms-dataverse-attribute": "exchangerate",
+          "x-ms-dataverse-type": "DecimalType",
+          "x-ms-schema-name": "ExchangeRate",
+          "x-ms-read-only": true
+        },
         "importsequencenumber": {
           "type": "string",
           "title": "Import Sequence Number",
@@ -288,6 +296,28 @@
           "x-ms-dataverse-type": "IntegerType",
           "x-ms-schema-name": "TimeZoneRuleVersionNumber"
         },
+        "tk_cancellationfee": {
+          "type": "string",
+          "title": "Cancellation fee",
+          "x-ms-dataverse-attribute": "tk_cancellationfee",
+          "x-ms-dataverse-type": "MoneyType",
+          "x-ms-schema-name": "tk_Cancellationfee"
+        },
+        "tk_cancellationfee_base": {
+          "type": "string",
+          "title": "Cancellation fee (Base)",
+          "x-ms-dataverse-attribute": "tk_cancellationfee_base",
+          "x-ms-dataverse-type": "MoneyType",
+          "x-ms-schema-name": "tk_cancellationfee_Base",
+          "x-ms-read-only": true
+        },
+        "tk_cancellationwindow": {
+          "type": "string",
+          "title": "Cancellation window",
+          "x-ms-dataverse-attribute": "tk_cancellationwindow",
+          "x-ms-dataverse-type": "IntegerType",
+          "x-ms-schema-name": "tk_Cancellationwindow"
+        },
         "tk_eventcategorytype": {
           "type": "string",
           "title": "Event Category Type",
@@ -306,7 +336,7 @@
         },
         "tk_eventtypecapacity": {
           "type": "string",
-          "title": "Event Type Capacity",
+          "title": "Max Capacity",
           "x-ms-dataverse-attribute": "tk_eventtypecapacity",
           "x-ms-dataverse-type": "IntegerType",
           "x-ms-schema-name": "tk_EventTypeCapacity"
@@ -346,6 +376,36 @@
           "x-ms-schema-name": "tk_HallNameName",
           "x-ms-read-only": true,
           "maxLength": 850
+        },
+        "tk_leadtime": {
+          "type": "string",
+          "title": "lead time",
+          "x-ms-dataverse-attribute": "tk_leadtime",
+          "x-ms-dataverse-type": "IntegerType",
+          "x-ms-schema-name": "tk_leadtime"
+        },
+        "tk_mincapacity": {
+          "type": "string",
+          "title": "Min Capacity",
+          "x-ms-dataverse-attribute": "tk_mincapacity",
+          "x-ms-dataverse-type": "IntegerType",
+          "x-ms-schema-name": "tk_MinCapacity"
+        },
+        "transactioncurrencyid": {
+          "type": "string",
+          "title": "Currency",
+          "x-ms-dataverse-attribute": "transactioncurrencyid",
+          "x-ms-dataverse-type": "LookupType",
+          "x-ms-schema-name": "TransactionCurrencyId"
+        },
+        "transactioncurrencyidname": {
+          "type": "string",
+          "title": "transactioncurrencyidname",
+          "x-ms-dataverse-attribute": "transactioncurrencyidname",
+          "x-ms-dataverse-type": "StringType",
+          "x-ms-schema-name": "TransactionCurrencyIdName",
+          "x-ms-read-only": true,
+          "maxLength": 100
         },
         "utcconversiontimezonecode": {
           "type": "string",

@@ -45,6 +45,19 @@ const HallEventTypeForm = ({
       .int()
       .min(1, "Capacity cannot be 0"),
 
+    tk_mincapacity: z.coerce
+      .number()
+      .int()
+      .min(1, "Capacity cannot be less than Min Capacity"),
+    tk_leadtime: z.coerce
+      .number()
+      .int()
+      .min(1, "Lead time cannot be less than 0"),
+
+    tk_cancellationwindow: z.coerce.number().int().min(1, ""),
+
+    tk_cancellationfee: z.coerce.number(),
+
     // Fixed the syntax here: .optional() handles the undefined translation natively
     _tk_hallname_value: z
       .string()
@@ -203,25 +216,112 @@ const HallEventTypeForm = ({
               </div>
             </div>
 
-            <div>
-              <fieldset
-                className={`border border-black mb-4 p-2 
+            <div className="flex w-full m-auto justify-around">
+              <div>
+                <fieldset
+                  className={`border border-black mb-4 p-2 
                   ${errors.tk_eventtypecapacity ? `border-red-500` : `border-black`} w-full`}
-              >
-                <legend>Capacity</legend>
-                <input
-                  type="number"
-                  name="tk_eventtypecapacity"
-                  value={formData?.tk_eventtypecapacity}
-                  onChange={handleInputChange}
-                  className="w-full"
-                />
-                {errors?.tk_eventtypecapacity && (
-                  <div className="text-red-500 text-[.7em]">
-                    {errors?.tk_eventtypecapacity}
-                  </div>
-                )}
-              </fieldset>
+                >
+                  <legend>Max. Capacity</legend>
+                  <input
+                    type="number"
+                    name="tk_eventtypecapacity"
+                    value={formData?.tk_eventtypecapacity}
+                    onChange={handleInputChange}
+                    className="w-full"
+                  />
+                  {errors?.tk_eventtypecapacity && (
+                    <div className="text-red-500 text-[.7em]">
+                      {errors?.tk_eventtypecapacity}
+                    </div>
+                  )}
+                </fieldset>
+              </div>
+
+              <div>
+                <fieldset
+                  className={`border border-black mb-4 p-2 
+                  ${errors.tk_mincapacity ? `border-red-500` : `border-black`} w-full`}
+                >
+                  <legend>Min. Capacity</legend>
+                  <input
+                    type="number"
+                    name="tk_mincapacity"
+                    value={formData?.tk_mincapacity}
+                    onChange={handleInputChange}
+                    className="w-full"
+                  />
+                  {errors?.tk_mincapacity && (
+                    <div className="text-red-500 text-[.7em]">
+                      {errors?.tk_mincapacity}
+                    </div>
+                  )}
+                </fieldset>
+              </div>
+            </div>
+
+            <div className="flex w-full m-auto justify-around">
+              <div className="w-[35%]">
+                <fieldset
+                  className={`border border-black mb-4 p-2 
+                  ${errors.tk_cancellationwindow ? `border-red-500` : `border-black`} w-full`}
+                >
+                  <legend>Cancellation Window</legend>
+                  <input
+                    type="number"
+                    name="tk_cancellationwindow"
+                    value={formData?.tk_cancellationwindow}
+                    onChange={handleInputChange}
+                    className="w-full"
+                  />
+                  {errors?.tk_cancellationwindow && (
+                    <div className="text-red-500 text-[.7em]">
+                      {errors?.tk_cancellationwindow}
+                    </div>
+                  )}
+                </fieldset>
+              </div>
+
+              <div className="w-[30%]">
+                <fieldset
+                  className={`border border-black mb-4 p-2 
+                  ${errors.tk_cancellationwindow ? `border-red-500` : `border-black`} w-full`}
+                >
+                  <legend>Cancellation Fee</legend>
+                  <input
+                    type="number"
+                    name="tk_cancellationfee"
+                    value={formData?.tk_cancellationfee}
+                    onChange={handleInputChange}
+                    className="w-full"
+                  />
+                  {errors?.tk_cancellationfee && (
+                    <div className="text-red-500 text-[.7em]">
+                      {errors?.tk_cancellationfee}
+                    </div>
+                  )}
+                </fieldset>
+              </div>
+              <div className="w-[30%]">
+                <fieldset
+                  className={`border border-black mb-4 p-2 
+                  ${errors.tk_leadtime ? `border-red-500` : `border-black`} w-full`}
+                >
+                  <legend>Lead Time</legend>
+                  <input
+                    type="number"
+                    name="tk_leadtime"
+                    value={formData?.tk_leadtime}
+                    onChange={handleInputChange}
+                    className="w-full"
+                  />
+                  {errors?.tk_leadtime && (
+                    <div className="text-red-500 text-[.7em]">
+                      {errors?.tk_leadtime}
+                    </div>
+                  )}
+                </fieldset>
+              </div>
             </div>
 
             <div className="flex">

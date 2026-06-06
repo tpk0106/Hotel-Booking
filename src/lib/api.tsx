@@ -2472,6 +2472,10 @@ function useLoadAllHallEventTypesAndEventCategories(
             select: [
               "tk_halleventtypeid",
               "tk_eventtypecapacity",
+              "tk_mincapacity",
+              "tk_leadtime",
+              "tk_cancellationwindow",
+              "tk_cancellationfee",
               "_tk_eventcategorytype_value",
               "_tk_hallname_value",
             ],
