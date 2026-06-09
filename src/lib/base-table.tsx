@@ -1,6 +1,5 @@
 import {
   Badge,
-  // Badge,
   IconButton,
   Stack,
   Table,
@@ -11,7 +10,6 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  // useTheme,
   type SxProps,
   type Theme,
 } from "@mui/material";
@@ -205,13 +203,8 @@ const BaseTable = <T,>({
             const pendingBookingCount: number =
               row.totalPendingCountForHall || 0;
 
-            // const pendingBookingCount: number = data.reduce(
-            //   (count, row: any) =>
-            //     row.bookingStatus === STATUS_MAP_REV["Pending"]
-            //       ? count + 1
-            //       : count,
-            //   0,
-            // );
+            const isMinCapacitySatisfied =
+              row.bookingCapacity < row.minCapacity;
 
             const isHallAlreadyBooked =
               isCurrentPending &&
@@ -350,7 +343,6 @@ const BaseTable = <T,>({
                                     borderColor: "secondary.main",
                                   }}
                                 >
-                                  {/* <div className="flex flex1-col"> */}
                                   <ConfirmationNumberOutlinedIcon
                                     onClick={() =>
                                       handleConfirmBooking &&
@@ -403,6 +395,38 @@ const BaseTable = <T,>({
                       {col.render
                         ? col.render(row)
                         : ((row[col.key as keyof T] as React.ReactNode) ?? "")}
+                      {isMinCapacitySatisfied &&
+                        (col.key as string) === "availabilityStatus" && (
+                          <Stack
+                          // spacing={5}
+                          // direction="column"
+                          // className="border-4 border-red-600"
+                          >
+                            <Badge
+                              sx={{
+                                "& .MuiBadge-badge": {
+                                  right: 10,
+                                  top: -20,
+                                  backgroundColor: "#ffa500",
+                                  fontSize: "8px",
+                                  fontWeight: "bold",
+                                  height: "10px",
+                                  display: "flex",
+                                  marginBottom: "3px",
+                                },
+                              }}
+                              color="primary"
+                              variant="standard"
+                              overlap="rectangular"
+                              anchorOrigin={{
+                                vertical: "top",
+                                horizontal: "left",
+                              }}
+                              max={999}
+                              badgeContent={<span>min Capacity not met</span>}
+                            ></Badge>
+                          </Stack>
+                        )}
 
                       <div className="flex items-center justify-around ml-20">
                         {row[col.key as keyof T] ===

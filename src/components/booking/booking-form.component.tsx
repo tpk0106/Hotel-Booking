@@ -19,6 +19,7 @@ import type { Tk_customers } from "../../generated/models/Tk_customersModel";
 import { asideMenuTitleTypographyTheme } from "../../lib/themes";
 
 import z from "zod";
+import { addDays } from "../../lib/utils";
 
 type BookingNowFormProps = {
   selectedBooking: HallsAvailableQueryResults | null;
@@ -48,8 +49,23 @@ const BookingForm = ({
   );
 
   // Keep local form state in sync when the parent prop changes
+
   React.useEffect(() => {
-    setFormData(selectedBooking);
+    // setFormData(selectedBooking);
+    setFormData((prev) => {
+      if (prev) {
+        return {
+          ...prev,
+          eventDate: formData
+            ? addDays(
+                new Date(formData.eventDate),
+                formData.leadtime,
+              ).toISOString() // or .toLocaleDateString() depending on format
+            : "",
+        };
+      }
+      return prev;
+    });
   }, [selectedBooking]);
 
   const [errors, setErrors] = useState<bookingFormErrors>({});
@@ -178,14 +194,25 @@ const BookingForm = ({
                 />
               </fieldset>
             </div>
-            <div className="flex justify-start">
-              <fieldset className="border border-black mb-4 p-2 w-[98%] m-auto">
+            <div className="flex justify-between w-full">
+              <fieldset className="border border-black mb-4 p-2 w-[48%] m-auto">
                 <legend>Category</legend>
                 <input
                   type="text"
                   disabled
                   name="category"
                   value={formData?.category || ""}
+                  onChange={handleInputChange}
+                  className="w-[80%]"
+                />
+              </fieldset>
+              <fieldset className="border border-black mb-4 p-2 w-[48%] m-auto">
+                <legend>Surcharge</legend>
+                <input
+                  type="text"
+                  disabled
+                  name="capacity"
+                  value={formData?.surcharge}
                   onChange={handleInputChange}
                   className="w-[80%]"
                 />

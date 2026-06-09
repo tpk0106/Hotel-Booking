@@ -64,9 +64,10 @@ const SearchResults = ({ results, onSuccess, version }: SearchResultsProps) => {
   const columns: ColumnConfig<HallsAvailableQueryResults>[] = [
     { header: "Hall Name", key: "hallName" },
     { header: "Max Capacity", key: "capacity" },
+    { header: "Min. Capacity", key: "minCapacity" },
     { header: "Booking Capacity", key: "bookingCapacity" },
+    { header: "Surchage ($)", key: "surcharge" },
     { header: "Category", key: "category" },
-
     {
       header: "Availability",
       key: "availabilityStatus",
@@ -144,7 +145,10 @@ const SearchResults = ({ results, onSuccess, version }: SearchResultsProps) => {
           bookingName: newPayload.bookingName,
           availabilityStatus: "Pending",
           capacity: newPayload.capacity,
+          minCapacity: newPayload.minCapacity,
           bookingCapacity: newPayload.bookingCapacity,
+          surcharge: newPayload.surcharge,
+          leadtime: newPayload.leadtime,
           eventDate: newPayload.eventDate,
           branch: newPayload.branch,
           branchId: newPayload.branchId,

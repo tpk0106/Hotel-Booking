@@ -118,6 +118,9 @@ export interface HallsAvailableQueryResults {
   category: string;
   categoryId: string;
   capacity: number;
+  minCapacity: number;
+  leadtime: number;
+  surcharge: number;
   bookingCapacity: number;
   eventDate: string;
   bookingName: string;
@@ -146,6 +149,7 @@ export interface HallEventTypeFormData {
   tk_cancellationfee: number;
   tk_cancellationwindow: number;
   tk_leadtime: number;
+  tk_surcharge: number;
   tk_halleventtypeid: string;
   _tk_eventcategorytype_value: string;
   _tk_hallname_value: string;

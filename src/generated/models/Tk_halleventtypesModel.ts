@@ -30,6 +30,7 @@ export interface Tk_halleventtypesBase {
   "tk_HallName@odata.bind"?: string;
   tk_leadtime?: number;
   tk_mincapacity?: number;
+  tk_surcharge?: number;
   "TransactionCurrencyId@odata.bind"?: string;
   utcconversiontimezonecode?: number;
 }
@@ -54,6 +55,7 @@ export interface Tk_halleventtypes extends Tk_halleventtypesBase {
   tk_cancellationfee_base?: number;
   tk_eventcategorytypename?: string;
   tk_hallnamename?: string;
+  tk_surcharge_base?: number;
   transactioncurrencyidname?: string;
   versionnumber?: number;
   createdby?: object;

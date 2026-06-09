@@ -139,11 +139,10 @@ const SearchBookingForm = ({
     const { name, value } = e.target;
 
     if (name === "Capacity") {
-      // console.log("before setting capacity---->", bookingCapacity);
       setBookingCapacity(+value);
       searchBookings();
       setSearching(false);
-      // console.log("after setting capacity---->", bookingCapacity);
+
       // if (
       //   formData?.Capacity! >
       //   queryResults.reduce(
@@ -277,7 +276,6 @@ const SearchBookingForm = ({
       const isCorrectBranch =
         associatedHall?._tk_hotelbranch_value === formData.Branch;
 
-      //  console.log("isCorrectBranch : ", isCorrectBranch);
       // --- FIX ENDS HERE ---
 
       // Filter by Event Category
@@ -389,6 +387,14 @@ const SearchBookingForm = ({
 
       if (associatedPendingBookings.length > 0) {
         // Generate exactly one row per explicit booking row
+        let bookingCapacity = 0;
+        if (het && het.tk_mincapacity) {
+          bookingCapacity =
+            bookingCapacity < het.tk_mincapacity
+              ? het.tk_surcharge || 0
+              : 0 || 0;
+        }
+
         associatedPendingBookings.forEach((booking) => {
           results.push({
             hallId: hallId,
@@ -402,7 +408,13 @@ const SearchBookingForm = ({
               (bookingCapacity === 0
                 ? het.tk_eventtypecapacity
                 : bookingCapacity) || 0,
+            minCapacity: het.tk_mincapacity || 0,
+            surcharge: bookingCapacity,
+            // (bookingCapacity < ((het && het.tk_mincapacity) || 0)
+            //   ? het.tk_surcharge
+            //   : 0) || 0,
             // booking.tk_eventcapacity || het.tk_eventtypecapacity || 0,
+            leadtime: het.tk_leadtime || 0,
             eventDate: formData.BookingDate || "",
             bookingName: booking.tk_bookingname || "",
             availabilityStatus: "Pending Bookings Exist",
@@ -434,10 +446,13 @@ const SearchBookingForm = ({
             branchId: branchIdStr,
             capacity: het.tk_eventtypecapacity || 0,
             // bookingCapacity: het.tk_eventtypecapacity || 0,
+            minCapacity: het.tk_mincapacity || 0,
+            leadtime: het.tk_leadtime || 0,
             bookingCapacity:
               (bookingCapacity === 0
                 ? het.tk_eventtypecapacity
                 : bookingCapacity) || 0,
+            surcharge: het.tk_surcharge || 0,
             eventDate: formData.BookingDate || "",
             bookingName: "",
             availabilityStatus: "Fully Available",

@@ -1,12 +1,4 @@
 import { toast } from "react-toastify";
-// import type {
-//   BookingNowFormData,
-//   HallsAvailableQueryResults,
-// } from "../model/interfaces";
-// import { Tk_bookingsService } from "../generated";
-// import type { IOperationResult } from "@microsoft/power-apps/data";
-// import type { Tk_bookings } from "../generated/models/Tk_bookingsModel";
-// import type { SetStateAction } from "react";
 
 // const imageDataUrl = (data: unknown): string => {
 //   const url: string = "data:image/jpeg;base64," + data;
@@ -72,102 +64,10 @@ const showToastMessage = (message: string, type?: string) => {
   }
 };
 
-// type CreateBookingProps = {
-//   newPayload: BookingNowFormData;
-//   setSearchResults: SetStateAction<HallsAvailableQueryResults[]>;
-//   setFormData: SetStateAction<HallsAvailableQueryResults | null>;
-// };
-
-// const createBooking = (
-//   newPayload: BookingNowFormData,
-//   setSearchResults: SetStateAction<HallsAvailableQueryResults[]>,
-//   setFormData: SetStateAction<HallsAvailableQueryResults | null>,
-// ) => {
-//   const branchId = newPayload.branchId;
-//   const hallId = newPayload.hallId;
-//   const eventCategoryId = newPayload.categoryId;
-//   const customerId = newPayload._tk_customername_value;
-
-//   // create
-//   // 1. Prepare the payload with ONLY writable fields
-//   const payload: any = {
-//     tk_eventcapacity: newPayload.capacity,
-//     tk_eventdate: newPayload.eventDate,
-//     tk_bookingname: newPayload.bookingName,
-//     // tk_bookingstatus: STATUS_MAP_REV[PENDING],
-//     tk_bookingstatus: PENDING, //pending
-//   };
-
-//   // 1. Add the branch binding
-//   if (branchId) {
-//     // IMPORTANT: Verify 'tk_HotelBranch' is the exact Navigation Property name
-//     payload["tk_HotelBranch@odata.bind"] = `/tk_hotelbranchs(${branchId})`;
-//   }
-
-//   // 2. Add the hall binding
-//   if (hallId) {
-//     payload["tk_HallName@odata.bind"] = `/tk_halls(${hallId})`;
-//   }
-
-//   // 3. Add the hall binding
-//   if (eventCategoryId) {
-//     payload["tk_EventCategoryType@odata.bind"] =
-//       `/tk_eventcategories(${eventCategoryId})`;
-//   }
-
-//   // 4. Add the customer binding
-//   if (customerId) {
-//     payload["tk_CustomerName@odata.bind"] = `/tk_customers(${customerId})`;
-//   }
-
-//   Tk_bookingsService.create(payload)
-//     .then((result: IOperationResult<Tk_bookings>) => {
-//       const createdBooking = result.data;
-
-//       const createdHallAvailableQueryResult: HallsAvailableQueryResults = {
-//         bookingId: createdBooking.tk_bookingid,
-//         bookingName: newPayload.bookingName,
-//         availabilityStatus: "Pending",
-//         capacity: newPayload.capacity,
-//         eventDate: newPayload.eventDate,
-//         branch: newPayload.branch,
-//         branchId: newPayload.branchId,
-//         hallId: newPayload.hallId,
-//         hallName: newPayload.hallName,
-//         category: newPayload.category,
-//         categoryId: newPayload.categoryId,
-//         statusColor: newPayload.statusColor,
-//         _tk_customername_value: newPayload._tk_customername_value,
-//       };
-
-//       // update booking table (filtered results table from bookings)
-//       //  setSearchResults((prev) => [createdHallAvailableQueryResult, ...prev]);
-//       // setFormData(null);
-
-//       {
-//         // 4. Update the "Loading" toast to "Success"
-//         toast.update(toastId, {
-//           render: `Booking for ${newPayload.customer} on ${newPayload.hallName} is saved successfully`,
-//           type: "success",
-//           isLoading: false,
-//           autoClose: 3000,
-//         });
-//       }
-//     })
-//     .catch((err) => {
-//       console.error("Payload sent:", payload); // Log this to see exactly what failed
-//       console.error("Create Error:", err);
-//       toast.update(toastId, {
-//         render: "Failed to save",
-//         type: "error",
-//         isLoading: false,
-//         autoClose: 3000,
-//       });
-//     })
-//     .finally(() => {
-//       // onSuccess();
-//       // setIsSaving(false);
-//     });
-// };
+export function addDays(date: Date, days: number): Date {
+  let result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
+}
 
 export { imageDataUrl, showToastMessage };

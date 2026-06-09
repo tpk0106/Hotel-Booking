@@ -85,7 +85,6 @@ const HallEventType = () => {
       setHallEventTypes(hallEventTypesData);
       setEventCategories(eventCategoriesData);
       setHalls(hallsData);
-      console.log("hall event types data : ", hallEventTypesData);
     };
     loadData();
   }, [hallEventTypesData, hallsData, eventCategoriesData]);
@@ -109,13 +108,14 @@ const HallEventType = () => {
     { header: "Min. Capacity", key: "tk_mincapacity" },
     { header: "Lead time (days)", key: "tk_leadtime" },
     { header: "Cancellation Window (days)", key: "tk_cancellationwindow" },
-    { header: "Cancellation Fee", key: "tk_cancellationfee" },
+    { header: "Cancellation Fee ($)", key: "tk_cancellationfee" },
+    { header: "Surcharge ($)", key: "tk_surcharge" },
     { header: "Action", key: "actions" }, // Special key for buttons
   ];
 
   const handleEdit = (editFormData: Tk_halleventtypes) => {
     const retRow = editFormData;
-    console.log("edit form data in handle edit : ", editFormData);
+
     handleEditForm(retRow);
   };
 
@@ -129,6 +129,7 @@ const HallEventType = () => {
       tk_eventtypecapacity: 0,
       tk_mincapacity: 0,
       tk_cancellationfee: 0,
+      tk_surcharge: 0,
       tk_cancellationwindow: 0,
       tk_leadtime: 0,
       _tk_hallname_value: "",
@@ -152,6 +153,7 @@ const HallEventType = () => {
         editFormData._tk_eventcategorytype_value || "",
       _tk_hallname_value: editFormData._tk_hallname_value || "",
       tk_mincapacity: editFormData.tk_mincapacity || 0,
+      tk_surcharge: editFormData.tk_surcharge || 0,
       tk_cancellationfee: editFormData.tk_cancellationfee || 0,
       tk_cancellationwindow: editFormData.tk_cancellationwindow || 0,
       tk_leadtime: editFormData.tk_leadtime || 0,
@@ -178,6 +180,7 @@ const HallEventType = () => {
       tk_eventtypecapacity: Number(editedPayload.tk_eventtypecapacity),
       tk_mincapacity: Number(editedPayload.tk_mincapacity),
       tk_cancellationfee: Number(editedPayload.tk_cancellationfee),
+      tk_surcharge: Number(editedPayload.tk_surcharge),
       tk_cancellationwindow: Number(editedPayload.tk_cancellationwindow),
       tk_leadtime: Number(editedPayload.tk_leadtime),
     };
@@ -238,6 +241,7 @@ const HallEventType = () => {
                   tk_mincapacity: editedPayload.tk_mincapacity,
                   tk_cancellationfee: editedPayload.tk_cancellationfee,
                   tk_cancellationwindow: editedPayload.tk_cancellationwindow,
+                  tk_surcharge: editedPayload.tk_surcharge,
                   tk_leadtime: editedPayload.tk_leadtime,
                   _tk_eventcategorytype_value:
                     editedPayload._tk_eventcategorytype_value,
@@ -277,6 +281,7 @@ const HallEventType = () => {
     // 1. Prepare the payload with ONLY writable fields
     const payload: any = {
       tk_eventtypecapacity: newPayload.tk_eventtypecapacity,
+      tk_surcharge: newPayload.tk_surcharge,
     };
 
     // 2. Add the evet category type and hall name binding
@@ -305,6 +310,7 @@ const HallEventType = () => {
           tk_mincapacity: newPayload.tk_mincapacity,
           tk_cancellationfee: newPayload.tk_cancellationfee,
           tk_cancellationwindow: newPayload.tk_cancellationwindow,
+          tk_surcharge: newPayload.tk_surcharge,
           tk_leadtime: newPayload.tk_leadtime,
           _tk_eventcategorytype_value: newPayload._tk_eventcategorytype_value,
           _tk_hallname_value: newPayload._tk_hallname_value,
@@ -339,14 +345,12 @@ const HallEventType = () => {
   // delete hallEventType
 
   const deleteHallEventType = (hallEventTypeId: string) => {
-    console.clear();
-    console.log("ID :", hallEventTypeId);
     Tk_halleventtypesService.delete(hallEventTypeId)
       .then(() => {
         // f you want to be even safer and ensure you are working with the most
         // recent version of the list (to avoid race conditions),
         // use the functional update pattern:
-        console.log("Success :");
+
         {
           toast.update(toastId, {
             render: "Hall Event type is deleted successfully",

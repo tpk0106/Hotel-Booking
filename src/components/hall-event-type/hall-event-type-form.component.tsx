@@ -39,36 +39,46 @@ const HallEventTypeForm = ({
 
   const [errors, setErrors] = useState<currentHallEventTypeFormErrors>({});
 
-  const hallEventTypeFormSchema = z.object({
-    tk_eventtypecapacity: z.coerce
-      .number()
-      .int()
-      .min(1, "Capacity cannot be 0"),
+  const hallEventTypeFormSchema = z
+    .object({
+      tk_eventtypecapacity: z.coerce
+        .number()
+        .int()
+        .min(1, "Capacity cannot be 0"),
 
-    tk_mincapacity: z.coerce
-      .number()
-      .int()
-      .min(1, "Capacity cannot be less than Min Capacity"),
-    tk_leadtime: z.coerce
-      .number()
-      .int()
-      .min(1, "Lead time cannot be less than 0"),
+      tk_mincapacity: z.coerce
+        .number()
+        .int()
+        .min(1, "Capacity cannot be less than Min Capacity"),
 
-    tk_cancellationwindow: z.coerce.number().int().min(1, ""),
+      tk_surcharge: z.coerce.number().int(),
 
-    tk_cancellationfee: z.coerce.number(),
+      tk_leadtime: z.coerce
+        .number()
+        .int()
+        .min(1, "Lead time cannot be less than 0"),
 
-    // Fixed the syntax here: .optional() handles the undefined translation natively
-    _tk_hallname_value: z
-      .string()
-      .min(1, "Please select the Hall from the list")
-      .optional(),
+      tk_cancellationwindow: z.coerce
+        .number()
+        .int()
+        .min(1, "Cancellation window cannot be zero."),
 
-    _tk_eventcategorytype_value: z
-      .string()
-      .min(1, "Please select the event category type from the list")
-      .optional(),
-  });
+      tk_cancellationfee: z.coerce.number(),
+
+      _tk_hallname_value: z
+        .string()
+        .min(1, "Please select the Hall from the list")
+        .optional(),
+
+      _tk_eventcategorytype_value: z
+        .string()
+        .min(1, "Please select the event category type from the list")
+        .optional(),
+    })
+    .refine((data) => data.tk_eventtypecapacity > data.tk_mincapacity, {
+      message: "Event type capacity must be greater than minimum capacity",
+      path: ["tk_eventtypecapacity"], // error will be shown under this field
+    });
 
   type currentHallEventTypeFormData = z.infer<typeof hallEventTypeFormSchema>;
 
@@ -177,42 +187,43 @@ const HallEventTypeForm = ({
                 name="halleventtypeid"
                 value={formData?.tk_halleventtypeid}
               />
-
-              <div
-                className={`border-black mb-4 p-2 ${errors._tk_eventcategorytype_value ? `border border-red-500` : `border-black`} `}
-              >
-                <SelectList
-                  name="_tk_eventcategorytype_value"
-                  value={formData?._tk_eventcategorytype_value || ""}
-                  label={
-                    !errors._tk_eventcategorytype_value
-                      ? "Event Categories"
-                      : errors._tk_eventcategorytype_value &&
-                        (errors?._tk_eventcategorytype_value as any)
-                  }
-                  data={formData?.eventCategories as Tk_eventcategories[]}
-                  labelKey="tk_categoryname" // Tells the component to use this for text
-                  valueKey="tk_eventcategoryid" // Tells the component to use this for the ID
-                  handleSelectedChange={handleSelectedChange}
-                />
-              </div>
-              <div
-                className={`border1 border-black mb-4 p-2 ${errors._tk_eventcategorytype_value ? `border border-red-500` : `border-black`} `}
-              >
-                <SelectList
-                  name="_tk_hallname_value"
-                  value={formData?._tk_hallname_value || ""}
-                  label={
-                    !errors._tk_hallname_value
-                      ? "Hall Names"
-                      : errors._tk_hallname_value &&
-                        (errors?._tk_hallname_value as any)
-                  }
-                  data={formData?.halls as Tk_halls[]}
-                  labelKey="tk_hallname" // Tells the component to use this for text
-                  valueKey="tk_hallid" // Tells the component to use this for the ID
-                  handleSelectedChange={handleSelectedChange}
-                />
+              <div className="flex w-full m-auto justify-around]">
+                <div
+                  className={`border-black  w-[48%] mb-4 p-2 ${errors._tk_eventcategorytype_value ? `border border-red-500` : `border-black`} `}
+                >
+                  <SelectList
+                    name="_tk_eventcategorytype_value"
+                    value={formData?._tk_eventcategorytype_value || ""}
+                    label={
+                      !errors._tk_eventcategorytype_value
+                        ? "Event Categories"
+                        : errors._tk_eventcategorytype_value &&
+                          (errors?._tk_eventcategorytype_value as any)
+                    }
+                    data={formData?.eventCategories as Tk_eventcategories[]}
+                    labelKey="tk_categoryname" // Tells the component to use this for text
+                    valueKey="tk_eventcategoryid" // Tells the component to use this for the ID
+                    handleSelectedChange={handleSelectedChange}
+                  />
+                </div>
+                <div
+                  className={`border1 border-black  w-[48%] mb-4 p-2 ${errors._tk_eventcategorytype_value ? `border border-red-500` : `border-black`} `}
+                >
+                  <SelectList
+                    name="_tk_hallname_value"
+                    value={formData?._tk_hallname_value || ""}
+                    label={
+                      !errors._tk_hallname_value
+                        ? "Hall Names"
+                        : errors._tk_hallname_value &&
+                          (errors?._tk_hallname_value as any)
+                    }
+                    data={formData?.halls as Tk_halls[]}
+                    labelKey="tk_hallname" // Tells the component to use this for text
+                    valueKey="tk_hallid" // Tells the component to use this for the ID
+                    handleSelectedChange={handleSelectedChange}
+                  />
+                </div>
               </div>
             </div>
 
@@ -261,6 +272,49 @@ const HallEventTypeForm = ({
             </div>
 
             <div className="flex w-full m-auto justify-around">
+              <div className="w-[30%]">
+                <fieldset
+                  className={`border border-black mb-4 p-2 
+                  ${errors.tk_cancellationwindow ? `border-red-500` : `border-black`} w-full`}
+                >
+                  <legend>Cancellation Fee</legend>
+                  <input
+                    type="number"
+                    name="tk_cancellationfee"
+                    value={formData?.tk_cancellationfee}
+                    onChange={handleInputChange}
+                    className="w-full"
+                  />
+                  {errors?.tk_cancellationfee && (
+                    <div className="text-red-500 text-[.7em]">
+                      {errors?.tk_cancellationfee}
+                    </div>
+                  )}
+                </fieldset>
+              </div>
+              <div className="w-[30%]">
+                <fieldset
+                  className={`border border-black mb-4 p-2 
+                  ${errors.tk_surcharge ? `border-red-500` : `border-black`} w-full`}
+                >
+                  <legend>Surcharge</legend>
+                  <input
+                    type="number"
+                    name="tk_surcharge"
+                    value={formData?.tk_surcharge}
+                    onChange={handleInputChange}
+                    className="w-full"
+                  />
+                  {errors?.tk_surcharge && (
+                    <div className="text-red-500 text-[.7em]">
+                      {errors?.tk_surcharge}
+                    </div>
+                  )}
+                </fieldset>
+              </div>
+            </div>
+
+            <div className="flex w-full m-auto justify-around">
               <div className="w-[35%]">
                 <fieldset
                   className={`border border-black mb-4 p-2 
@@ -282,26 +336,6 @@ const HallEventTypeForm = ({
                 </fieldset>
               </div>
 
-              <div className="w-[30%]">
-                <fieldset
-                  className={`border border-black mb-4 p-2 
-                  ${errors.tk_cancellationwindow ? `border-red-500` : `border-black`} w-full`}
-                >
-                  <legend>Cancellation Fee</legend>
-                  <input
-                    type="number"
-                    name="tk_cancellationfee"
-                    value={formData?.tk_cancellationfee}
-                    onChange={handleInputChange}
-                    className="w-full"
-                  />
-                  {errors?.tk_cancellationfee && (
-                    <div className="text-red-500 text-[.7em]">
-                      {errors?.tk_cancellationfee}
-                    </div>
-                  )}
-                </fieldset>
-              </div>
               <div className="w-[30%]">
                 <fieldset
                   className={`border border-black mb-4 p-2 

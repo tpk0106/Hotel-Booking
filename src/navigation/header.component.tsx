@@ -366,7 +366,7 @@ const Header = () => {
             <div
               id="show-pinnedMenu"
               className="fixed top-2 bottom-2 left-0 z-50 transition-all duration-300 ease-in-out"
-              style={{ width: "80px", left: "0px" }} // Initial width set to match your script variables
+              style={{ width: "60px", left: "0px" }} // Initial width set to match your script variables
             >
               <ThemeProvider theme={theme}>
                 <Card
@@ -385,8 +385,8 @@ const Header = () => {
                   >
                     <List
                       className="w-[85%] bg-black overflow-y-scroll scrollbar-none 
-                     h-[calc(100vh-2rem)] rounded-md shadow-xl shadow-gray-900 
-                     border border-gray-700 p-2 flex flex-col items-center gap-2"
+                     h-[calc(100vh-2rem)] rounded-md shadow-xl shadow-gray-900 border-indigo-400
+                     border p-2 flex flex-col items-center gap-2"
                     >
                       {navbarData.map((menu) => {
                         return menu.subMenus?.map((sm) => {

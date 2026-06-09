@@ -391,6 +391,21 @@
           "x-ms-dataverse-type": "IntegerType",
           "x-ms-schema-name": "tk_MinCapacity"
         },
+        "tk_surcharge": {
+          "type": "string",
+          "title": "Surcharge",
+          "x-ms-dataverse-attribute": "tk_surcharge",
+          "x-ms-dataverse-type": "MoneyType",
+          "x-ms-schema-name": "tk_Surcharge"
+        },
+        "tk_surcharge_base": {
+          "type": "string",
+          "title": "Surcharge (Base)",
+          "x-ms-dataverse-attribute": "tk_surcharge_base",
+          "x-ms-dataverse-type": "MoneyType",
+          "x-ms-schema-name": "tk_surcharge_Base",
+          "x-ms-read-only": true
+        },
         "transactioncurrencyid": {
           "type": "string",
           "title": "Currency",
